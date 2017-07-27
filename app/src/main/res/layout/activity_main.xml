@@ -84,4 +84,22 @@
             android:textSize="18sp"
             android:textColor="@android:color/white"/>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/log_layout"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+        <TextView
+            android:id="@+id/log_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLines = "999"
+            android:scrollbars = "vertical"
+            android:background="#f2f3f4"
+            android:hint="log"/>
+    </RelativeLayout>
 </LinearLayout>

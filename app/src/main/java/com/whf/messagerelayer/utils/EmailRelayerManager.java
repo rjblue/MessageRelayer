@@ -32,10 +32,10 @@ public class EmailRelayerManager {
     private static final String HOST_OUTLOOK = "smtp.outlook.com";
 
     //发送短信至目标邮件
-    public static int relayEmail(NativeDataManager dataManager,String content) {
+    public static int relayEmail(NativeDataManager dataManager, String from, String content) {
         Properties props = new Properties();
         User user = getSenderUser(dataManager);
-        EmailMessage  emailMessage = creatEmailMessage(content,dataManager);
+        EmailMessage  emailMessage = creatEmailMessage(from, content,dataManager);
         setHost(dataManager,props);
 
         //是否开启SSL
@@ -199,13 +199,13 @@ public class EmailRelayerManager {
      * @param dataManager
      * @return
      */
-    private static EmailMessage creatEmailMessage(String content,NativeDataManager dataManager){
+    private static EmailMessage creatEmailMessage(String from, String content,NativeDataManager dataManager){
         EmailMessage message = new EmailMessage();
         message.setContent(content);
         message.setSenderAccount(dataManager.getEmailAccount());
         message.setSenderName(dataManager.getEmailSenderName());
         message.setReceiverAccount(dataManager.getEmailToAccount());
-        message.setSubject(dataManager.getEmailSubject());
+        message.setSubject(from);
         return message;
     }
 }

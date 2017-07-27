@@ -1,13 +1,11 @@
 package com.whf.messagerelayer.activity;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -421,7 +419,7 @@ public class EmailRelayerActivity extends AppCompatActivity implements
                 new AsyncTask<Void, Void, Integer>() {
                     @Override
                     protected Integer doInBackground(Void... params) {
-                        return EmailRelayerManager.relayEmail(mNativeDataManager, "配置正确！");
+                        return EmailRelayerManager.relayEmail(mNativeDataManager, "邮件转发测试","配置正确！");
                     }
 
                     @Override
