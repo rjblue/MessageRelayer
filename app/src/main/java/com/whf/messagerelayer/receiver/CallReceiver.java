@@ -9,12 +9,17 @@ import android.provider.CallLog;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.whf.messagerelayer.utils.NativeDataManager;
+
 /**
  * Created by lingxuan on 2017/7/27.
  */
 public class CallReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (!new NativeDataManager(context).getMissCallSwitch()) {
+            return;
+        }
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
         if (tm.getCallState() == TelephonyManager.CALL_STATE_RINGING) {
             Log.d("sms", "CALL_STATE_RINGING register content observer");

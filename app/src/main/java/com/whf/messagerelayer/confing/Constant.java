@@ -59,5 +59,6 @@ public class Constant {
     //前缀和后缀
     public static final String KEY_CONTENT_PREFIX = "prefix";
     public static final String KEY_CONTENT_SUFFIX = "suffix";
-
+    //未接来电转发开关
+    public static final String KEY_MISS_CALL = "misscall";
 }

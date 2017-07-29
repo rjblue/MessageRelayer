@@ -2,26 +2,29 @@ package com.whf.messagerelayer.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.whf.messagerelayer.R;
 import com.whf.messagerelayer.confing.Constant;
 import com.whf.messagerelayer.utils.NativeDataManager;
 
-public class RuleActivity extends AppCompatActivity implements View.OnClickListener {
+public class RuleActivity extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener {
 
     private RelativeLayout mMoblieRuleLayout, mKeywordRuleLayout, mPrefixRuleLayout, mSuffixRuleLayout;
     private NativeDataManager mNativeDataManager;
     private TextView mPrefixText, mSuffixText;
+    private Switch mMissCallSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class RuleActivity extends AppCompatActivity implements View.OnClickListe
 
         mPrefixText = (TextView) findViewById(R.id.text_prefix);
         mSuffixText = (TextView) findViewById(R.id.text_suffix);
+
+        mMissCallSwitch = (Switch) findViewById(R.id.switch_misscall);
     }
 
     private void initListener() {
@@ -57,6 +62,8 @@ public class RuleActivity extends AppCompatActivity implements View.OnClickListe
 
         mPrefixRuleLayout.setOnClickListener(this);
         mSuffixRuleLayout.setOnClickListener(this);
+
+        mMissCallSwitch.setOnCheckedChangeListener(this);
     }
 
     private void initData() {
@@ -68,6 +75,8 @@ public class RuleActivity extends AppCompatActivity implements View.OnClickListe
         if (suffix != null) {
             mSuffixText.setText(suffix);
         }
+
+        mMissCallSwitch.setChecked(mNativeDataManager.getMissCallSwitch());
     }
 
     @Override
@@ -93,6 +102,14 @@ public class RuleActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.layout_rule_suffix:
                 showEditDialog("请输入要附加的内容后缀", Constant.KEY_CONTENT_SUFFIX);
                 break;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.switch_misscall:
+                mNativeDataManager.setMissCallSwitch(isChecked);
         }
     }
 
