@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.whf.messagerelayer.bean.Contact;
 import com.whf.messagerelayer.confing.Constant;
 import com.whf.messagerelayer.utils.EmailRelayerManager;
+import com.whf.messagerelayer.utils.Log;
 import com.whf.messagerelayer.utils.NativeDataManager;
 import com.whf.messagerelayer.utils.SmsRelayerManager;
 import com.whf.messagerelayer.utils.db.DataBaseManager;
@@ -70,12 +71,16 @@ public class SmsService extends IntentService {
     private void relayMessage(String from, String content) {
         String suffix = mNativeDataManager.getContentSuffix();
         String prefix = mNativeDataManager.getContentPrefix();
-        if(suffix!=null){
-            content = content+suffix;
+        if (suffix != null) {
+            content = content + suffix;
         }
-        if(prefix!=null){
-            content = prefix+content;
+        if (prefix != null) {
+            content = prefix + content;
         }
+        Log.log("relayMessage:by "
+                + (mNativeDataManager.getSmsRelay() ? "sms " : "")
+                + (mNativeDataManager.getEmailRelay() ? "email " : "")
+                + "mobile:" + from);
         if (mNativeDataManager.getSmsRelay()) {
             SmsRelayerManager.relaySms(mNativeDataManager, content);
         }

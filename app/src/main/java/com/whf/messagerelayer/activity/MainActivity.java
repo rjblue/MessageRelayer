@@ -2,10 +2,8 @@ package com.whf.messagerelayer.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
@@ -18,18 +16,24 @@ import android.widget.Toast;
 import com.whf.messagerelayer.R;
 import com.whf.messagerelayer.utils.NativeDataManager;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static WeakReference<MainActivity> myself;
     private RelativeLayout mSmsLayout, mEmailLayout, mRuleLayout;
     private NativeDataManager mNativeDataManager;
-
     private TextView logTextView;
+
+    public static MainActivity getInstance() {
+        return myself != null ? myself.get() : null;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        myself = new WeakReference<MainActivity>(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         logTextView = (TextView) findViewById(R.id.log_text);
@@ -93,13 +97,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkAndGetPermission() {
-        boolean hadPermission1 = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED;
-        log("是否拥有短信权限:" + hadPermission1);
-        boolean hadPermission2 = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
-        log("是否拥有读取通讯录权限:" + hadPermission2);
-        if (!hadPermission1 || !hadPermission2) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_CONTACTS}, 0);
-        }
+//        boolean hadPermission1 = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED;
+//        log("是否拥有短信权限:" + hadPermission1);
+//        boolean hadPermission2 = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+//        log("是否拥有读取通讯录权限:" + hadPermission2);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_CONTACTS, Manifest.permission.READ_CALL_LOG}, 0);
     }
 
     @Override
@@ -112,15 +114,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (grantResults[i] == 0) {
                 log(permissions[i] + "权限获取成功");
             } else {
-                log(permissions[i] + "权限获取失败");
+                log(permissions[i] + "权限获取失败,无法正常工作");
             }
         }
 
     }
 
-    public void log(String msg) {
-        logTextView.append(new SimpleDateFormat("HH-mm-ss:SSS").format(new Date()) + msg + "\n");
-        int offset = logTextView.getLineCount() * logTextView.getLineHeight();
-        logTextView.scrollTo(0, offset - logTextView.getHeight());
+    public void log(final String msg) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                logTextView.append(new SimpleDateFormat("HH-mm-ss:SSS").format(new Date()) + msg + "\n");
+                int offset = logTextView.getLineCount() * logTextView.getLineHeight();
+                logTextView.scrollTo(0, offset - logTextView.getHeight());
+            }
+        });
     }
 }

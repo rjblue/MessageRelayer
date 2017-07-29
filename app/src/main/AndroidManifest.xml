@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.whf.messagerelayer"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="com.whf.messagerelayer"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 允许程序监控短信的接受 -->
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
@@ -9,6 +10,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
 
     <application
         android:allowBackup="true"
@@ -33,7 +35,8 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.Android.phone.NotificationMgr.MissedCall_intent"/>
+                <!-- 获取来电广播 -->
+                <action android:name="android.intent.action.PHONE_STATE"/>
             </intent-filter>
         </receiver>
 
