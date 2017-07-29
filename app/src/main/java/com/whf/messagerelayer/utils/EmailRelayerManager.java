@@ -1,5 +1,7 @@
 package com.whf.messagerelayer.utils;
 
+import android.text.TextUtils;
+
 import com.whf.messagerelayer.bean.EmailMessage;
 import com.whf.messagerelayer.confing.Constant;
 
@@ -205,7 +207,7 @@ public class EmailRelayerManager {
         message.setSenderAccount(dataManager.getEmailAccount());
         message.setSenderName(dataManager.getEmailSenderName());
         message.setReceiverAccount(dataManager.getEmailToAccount());
-        message.setSubject(from);
+        message.setSubject(TextUtils.isEmpty(dataManager.getEmailSubject()) ? from : dataManager.getEmailSubject());
         return message;
     }
 }

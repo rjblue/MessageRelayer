@@ -325,6 +325,22 @@
                 android:textColor="@color/colorLightText"
                 android:textSize="13sp"/>
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@android:color/white"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="*若邮件主题留空,则使用发送方号码填充"
+                android:textColor="@color/colorDarkText"
+                android:textSize="12sp"/>
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>
 
